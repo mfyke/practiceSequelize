@@ -1,0 +1,56 @@
+<div class="container">
+	<h1 class="text-center">Sup Y'all It's Me! It's Ya Boi Asmondburger!</h1>
+	<div class="text-center">
+		<img class="img-responsive" src="/assets/img/burger.png">
+	</div>
+	<div class="row">
+		<div class="col-6 text-center">
+			<h1>Burgers Ready to be Eaten</h1>
+			<ul>
+				{{#each burgers}}
+					{{#unless this.devoured}}
+						<li>
+							{{this.burger_name}}
+							<form action="/{{this.id}}?_method=PUT" method="POST">
+								<input type="hidden" name="devoured" value="true">
+								<button class="btn btn-success" type="submit">Devour!</button>
+							</form>
+							<form action="/{{this.id}}?_method=DELETE" method="POST">
+								<button class="btn btn-outline-danger" type="submit">Delete!</button>
+							</form>
+						</li>
+					{{/unless}}
+				{{/each}}
+			</ul>
+		</div>
+		<div class="col-6 text-center">
+			<h1>Devoured Burgers</h1>
+			<ul>
+				{{#each burgers}}
+					{{#if this.devoured}}
+						<li>
+							{{this.burger_name}}
+							<form action="{{this.id}}?_method=PUT" method="POST">
+								<input type="hidden" name="devoured" value="false">
+								<button class="btn btn-danger" type="submit">Puke!</button>
+							</form>
+							<form action="/{{this.id}}?_method=DELETE" method="POST">
+								<button class="btn btn-outline-danger" type="submit">Delete!</button>
+							</form>
+						</li>
+					{{/if}}
+				{{/each}}
+			</ul>
+		</div>
+	</div>
+	<div class="text-center">
+		<form action="/" method="POST">
+			<h2>Burger Name:</h2>
+			<input type="text" name="burger_name" required>
+			<h2>Devoured?</h2>
+			<input type="radio" name="devoured" value="false" checked>No
+			<input type="radio" name="devoured" value="true">Yes<br><br>
+			<button class="btn btn-success" type="submit">Add New Burger!</button>
+		</form>
+	</div>	
+</div>
