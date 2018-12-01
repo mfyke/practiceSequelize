@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS burgers_db;
-USE burgers_db;
+CREATE DATABASE IF NOT EXISTS sequelize_burgers_db;
+USE sequelize_burgers_db;
 
 DROP TABLE IF EXISTS burgers;
 
