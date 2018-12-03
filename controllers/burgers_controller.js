@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.get("/", (req,res) => {
 	console.log(req);
-	db.burgers.findAll({}).then((data)=>{
+	db.burgers.findAll().then((data)=>{
 		const hbsObj = {
 			burgers: data
 		}
@@ -12,41 +12,32 @@ router.get("/", (req,res) => {
 	});
 });
 
-router.post("/", (req,res) => {
-	const names = Object.keys(req.body);
-	const burgerToAdd = {
-		name1: names[0],
-		name2: names[1],
-		value1: req.body.burger_name,
-		value2: req.body.devoured
-	}
-	burger.insert(burgerToAdd, (data) => {
+router.post("/", (req,res) => {	
+	db.burgers.create({
+		burger_name: req.body.burger_name,
+		devoured: req.body.devoured
+	}).then(() => {
 		res.redirect("/");
 	});
-
 });
 
 router.put("/:id", (req,res) => {
-	const condition = {
-		name: Object.keys(req.params),
-		value: req.params.id
-	}
-	const cols = {
-		name: Object.keys(req.body),
-		value: req.body.devoured
-	}
-	burger.update(cols, condition, (data) => {
+	db.burgers.update({
+		devoured: req.body.devoured
+	},
+	{
+		where: {id: req.params.id}
+	}).then(() => {
 		res.redirect("/");
 	});
 });
 
-router.delete("/:id", (req,res) => {
-	console.log(req.params);
-	condition = {
-		name: Object.keys(req.params),
-		value: req.params.id
-	}
-	burger.delete(condition, (data) => {
+router.delete("/:id", (req,res) => {	
+	db.burgers.destroy({
+		where: {
+			id: req.params.id
+		}
+	}).then(()=> {
 		res.redirect("/");
 	});
 });
